@@ -1,15 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
 
+# func which get dict and sort it by values
+def sortDict(dic):
+    sorted_dict = {}
+    for w in sorted(dic, key=dic.get,):
+       sorted_dict[w] = dic[w]
+    return sorted_dict
+
 # func which get dict and sort it reverse by values
 def sortReverseDict(dic):
-    sorted_values = sorted(dic.values(), reverse=True)
     sorted_dict = {}
-    for i in sorted_values:
-        for k in dic.keys():
-            if dic[k] == i:
-                sorted_dict[k] = dic[k]
-                break
+    for w in sorted(dic, key=dic.get, reverse=True):
+       sorted_dict[w] = dic[w]
     return sorted_dict
 
 # function which get single url and return words list without characters and numbers
@@ -50,6 +53,7 @@ def dictToOrderNewDictByLength(dic):
             LengthDict[word] = len(word)
     return LengthDict
 
+
 if __name__ == '__main__':
     urlsString = input("Please insert a urls with space,\n for example: url1 url2 url3\n")
     listOfUrl = urlsString.split(' ')
@@ -57,5 +61,11 @@ if __name__ == '__main__':
     for url in listOfUrl:
         worldsAllURLsList.extend(getURLAndReturnWordsList(url))
     dictOfAllTheURLs = checkCommonByDict(worldsAllURLsList)
-    for word, length in dictToOrderNewDictByLength(dictOfAllTheURLs).items():
+    print(dictOfAllTheURLs)
+
+    dictOfAllTheURLs = dictToOrderNewDictByLength(dictOfAllTheURLs)
+    dictOfAllTheURLs = sortReverseDict(dictOfAllTheURLs)
+
+    for word, length in sortDict(dictToOrderNewDictByLength(dictOfAllTheURLs)).items():
         print('Length ' + str(length) + ': ' + word)
+
